@@ -13,12 +13,22 @@ body {
   background: linear-gradient(135deg, #ffd6e0, #ffe9c9);
 }
 
-/* PANDA */
+/* 🐼 PANDA (EMOJI ANIMATION) */
 #panda {
   position: absolute;
   bottom: 20px;
-  left: -150px;
-  width: 120px;
+  left: -100px;
+  font-size: 70px;
+}
+
+/* WALK ANIMATION */
+.walk {
+  animation: bounce 0.4s infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
 }
 
 /* ROPE */
@@ -26,10 +36,19 @@ body {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 6px;
+  width: 30px;
   height: 220px;
-  background: #333;
   cursor: pointer;
+}
+
+/* visible rope line */
+#rope::after {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 220px;
+  background: black;
+  margin: auto;
 }
 
 /* HELP TEXT */
@@ -87,15 +106,17 @@ body {
 
 <body>
 
-<!-- 🎵 HAPPY BIRTHDAY SONG -->
-<audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=happy-birthday-254480.mp3"></audio>
+<!-- 🎵 LOCAL SOUND (ensure works) -->
+<audio id="music">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=happy-birthday-254480.mp3" type="audio/mp3">
+</audio>
 
-<!-- 🐼 PANDA (WORKING IMAGE) -->
-<img id="panda" src="https://i.imgur.com/4AiXzf8.png">
+<!-- 🐼 ANIMATED PANDA -->
+<div id="panda" class="walk">🐼</div>
 
 <div id="rope"></div>
 
-<div id="help">🐼 HELP! Tap on the rope to pull this down 🪢</div>
+<div id="help">🐼 HELP! pull this rope down 🪢</div>
 
 <div id="banner">🎉 Happy Birthday Vamika 🎉</div>
 
@@ -111,33 +132,41 @@ const message = document.getElementById('message');
 
 let pulled = false;
 
-/* 🐼 PANDA WALK */
-let pos = -150;
+/* 🐼 WALKING PANDA */
+let pos = -100;
 let walk = setInterval(() => {
   pos += 4;
   panda.style.left = pos + "px";
 
   if (pos >= window.innerWidth * 0.42) {
     clearInterval(walk);
+    panda.classList.remove("walk");
 
-    panda.style.bottom = "100px";
-    setTimeout(() => panda.style.bottom = "20px", 300);
+    // jump
+    panda.style.transform = "translateY(-60px)";
+    setTimeout(() => panda.style.transform = "translateY(0)", 300);
 
     setTimeout(() => {
       help.style.display = "block";
-    }, 800);
+    }, 600);
   }
 }, 30);
+
+/* 🎯 CLICK (UNLOCK SOUND) */
+document.body.addEventListener("click", () => {
+  music.play().catch(()=>{});
+}, { once: true });
 
 /* 🎯 ROPE CLICK */
 rope.onclick = () => {
   if (pulled) return;
   pulled = true;
 
-  music.play(); // 🎵 SONG START
+  music.currentTime = 0;
+  music.play();
 
-  panda.style.bottom = "130px";
-  setTimeout(() => panda.style.bottom = "20px", 300);
+  panda.style.transform = "translateY(-80px)";
+  setTimeout(() => panda.style.transform = "translateY(0)", 300);
 
   banner.style.top = "80px";
 
@@ -145,7 +174,7 @@ rope.onclick = () => {
   createConfetti();
 };
 
-/* 💖 MESSAGE (INSTANT CLEAN) */
+/* 💖 MESSAGE */
 function showMessage() {
   message.innerHTML = `
   ✨ Dear Vamika ✨ <br><br>
@@ -153,16 +182,12 @@ function showMessage() {
   Tumhari smile sab kuch beautiful bana deti hai 🌸<br><br>
   Tum bahut special ho ❤️<br><br>
   🎂 Happy Birthday 🎂
-   Har khushi tumhe mile, har sapna pura ho ✨<br><br>
-  You are truly special and deserve all the love in the world ❤️<br>
-  Stay खुश, stay amazing हमेशा 💫<br><br>
-  💌 Happy Birthday once again 💌
   `;
 }
 
 /* 🎉 CONFETTI */
 function createConfetti() {
-  for (let i = 0; i < 60; i++) {
+  for (let i = 0; i < 70; i++) {
     let c = document.createElement('div');
     c.className = 'confetti';
     c.style.left = Math.random() * window.innerWidth + 'px';
