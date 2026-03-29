@@ -59,7 +59,7 @@ body {
   transition: top 1s ease;
 }
 
-/* MESSAGE BOX */
+/* MESSAGE */
 #message {
   position: absolute;
   top: 200px;
@@ -70,7 +70,7 @@ body {
   padding: 0 20px;
 }
 
-/* TYPING EFFECT */
+/* TYPING */
 .typing {
   border-right: 3px solid #ff4d6d;
   white-space: nowrap;
@@ -102,7 +102,8 @@ body {
 
 <body>
 
-<audio id="music" src="https://www.fesliyanstudios.com/play-mp3/387"></audio>
+<!-- ✅ FIXED HAPPY BIRTHDAY SONG -->
+<audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=happy-birthday-254480.mp3"></audio>
 
 <img id="panda" src="https://cdn-icons-png.flaticon.com/512/3069/3069172.png">
 
@@ -126,7 +127,7 @@ const text = document.getElementById('text');
 
 let pulled = false;
 
-/* 🐼 PANDA WALK (step effect) */
+/* 🐼 PANDA WALK */
 let pos = -150;
 let walk = setInterval(() => {
   pos += 5;
@@ -135,7 +136,6 @@ let walk = setInterval(() => {
   if (pos >= window.innerWidth * 0.42) {
     clearInterval(walk);
 
-    /* jump */
     panda.style.bottom = "100px";
     setTimeout(() => panda.style.bottom = "20px", 300);
 
@@ -145,12 +145,17 @@ let walk = setInterval(() => {
   }
 }, 30);
 
+/* 🎯 CLICK ENABLE SOUND (IMPORTANT FIX) */
+document.body.addEventListener('click', () => {
+  music.play().catch(()=>{});
+}, { once: true });
+
 /* 🎯 ROPE CLICK */
 rope.addEventListener('click', () => {
   if (pulled) return;
   pulled = true;
 
- <audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=happy-birthday-254480.mp3"></audio>
+  music.play(); // 🔊 SONG WILL PLAY HERE
 
   panda.style.bottom = "130px";
   setTimeout(() => panda.style.bottom = "20px", 300);
@@ -158,18 +163,17 @@ rope.addEventListener('click', () => {
   banner.style.top = "80px";
 
   startTyping();
-
   createConfetti();
 });
 
-/* ✨ TYPING MESSAGE (emotional) */
+/* 💖 MESSAGE */
 const messageText = `Dear Vamika 💖
 
 Aaj ka din sirf tumhara hai...
 Aur sach bolu to tum sirf ek din nahi, har din special ho ✨
 
 Tumhari smile kisi bhi din ko perfect bana sakti hai 😊
-Aur tumhari presence duniya ko thoda aur beautiful bana deti hai 🌸
+Aur tumhari presence duniya ko aur beautiful bana deti hai 🌸
 
 I hope tumhari life hamesha happiness, love aur success se bhari rahe 💫
 
@@ -184,7 +188,7 @@ function startTyping() {
     if (i < messageText.length) {
       text.innerHTML += messageText.charAt(i) === "\n" ? "<br>" : messageText.charAt(i);
       i++;
-      setTimeout(type, 35);
+      setTimeout(type, 40);
     }
   }
   type();
