@@ -13,44 +13,24 @@ body {
   background: linear-gradient(135deg, #ffd6e0, #ffe9c9);
 }
 
-/* 🐼 PANDA */
 #panda {
   position: absolute;
   bottom: 20px;
-  left: -100px;
-  font-size: 70px;
+  left: -150px;
+  width: 120px;
+  transition: left 2s ease, bottom 0.5s ease;
 }
 
-/* WALK */
-.walk {
-  animation: bounce 0.4s infinite alternate;
-}
-
-@keyframes bounce {
-  from { transform: translateY(0); }
-  to { transform: translateY(-10px); }
-}
-
-/* ROPE */
 #rope {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 60px;
+  width: 8px;
   height: 220px;
-  cursor: pointer;
+  background: #333;
+  cursor: grab;
 }
 
-#rope::after {
-  content: "";
-  display: block;
-  width: 4px;
-  height: 220px;
-  background: black;
-  margin: auto;
-}
-
-/* BANNER */
 #banner {
   position: absolute;
   top: -200px;
@@ -61,34 +41,22 @@ body {
   padding: 20px 40px;
   font-size: 2em;
   border-radius: 12px;
+  text-align: center;
   transition: top 1s ease;
 }
 
-/* MESSAGE */
 #message {
   position: absolute;
   top: 200px;
   width: 100%;
   text-align: center;
-  font-size: 1.2em;
+  font-size: 1.3em;
   color: #444;
   opacity: 0;
-  transition: opacity 1.5s;
+  transition: opacity 2s ease;
+  padding: 0 20px;
 }
 
-/* HELP TEXT */
-#help {
-  position: absolute;
-  top: 230px;
-  width: 100%;
-  text-align: center;
-  font-size: 1.4em;
-  color: #ff4d6d;
-  display: none;
-  font-weight: bold;
-}
-
-/* CONFETTI */
 .confetti {
   position: absolute;
   width: 10px;
@@ -107,89 +75,63 @@ body {
 
 <body>
 
-<!-- 🎵 AUDIO (LOCAL FILE) -->
-<audio id="music" preload="auto" loop>
-  <source src="birthday.mp3" type="audio/mpeg">
-</audio>
+<!-- 🎵 LOCAL SONG -->
+<audio id="bgMusic" src="song.mp3"></audio>
 
-<!-- 🐼 PANDA -->
-<div id="panda" class="walk">🐼</div>
-
+<img id="panda" src="https://cdn-icons-png.flaticon.com/512/616/616408.png">
 <div id="rope"></div>
 
 <div id="banner">🎉 Happy Birthday Vamika 🎉</div>
 
-<div id="help">🐼 HELP! pull this rope 👇</div>
-
-<div id="message"></div>
+<div id="message">
+  ✨ Dear Vamika ✨ <br><br>
+  Aaj ka din sirf tumhara hai 💖<br>
+  Tumhari smile duniya ko aur beautiful banati hai 🌸<br>
+  Har khushi tumhe mile, har sapna pura ho ✨<br><br>
+  You are truly special and deserve all the love in the world ❤️<br>
+  Stay khush, stay amazing hamesha 💫<br><br>
+  💌 Happy Birthday once again 💌
+</div>
 
 <script>
 const panda = document.getElementById('panda');
 const rope = document.getElementById('rope');
 const banner = document.getElementById('banner');
 const message = document.getElementById('message');
-const help = document.getElementById('help');
-const music = document.getElementById('music');
+const music = document.getElementById('bgMusic');
+
+// Panda run
+setTimeout(() => {
+  panda.style.left = '42%';
+}, 500);
 
 let pulled = false;
 
-/* 🐼 PANDA WALK */
-let pos = -100;
-let walk = setInterval(() => {
-  pos += 4;
-  panda.style.left = pos + "px";
-
-  if (pos >= window.innerWidth * 0.42) {
-    clearInterval(walk);
-    panda.classList.remove("walk");
-
-    panda.style.transform = "translateY(-60px)";
-    setTimeout(() => panda.style.transform = "translateY(0)", 300);
-
-    setTimeout(() => {
-      help.style.display = "block";
-    }, 500);
-  }
-}, 30);
-
-/* 🔓 SOUND UNLOCK (CRITICAL) */
-document.body.addEventListener("click", () => {
-  music.muted = true;
-  music.play().then(() => {
-    music.pause();
-    music.currentTime = 0;
-    music.muted = false;
-  }).catch(()=>{});
-}, { once: true });
-
-/* 🎯 ROPE CLICK */
-rope.addEventListener("click", () => {
+rope.addEventListener('click', () => {
   if (pulled) return;
   pulled = true;
 
-  music.currentTime = 0;
-  music.play().catch(err => console.log(err));
+  // 🎵 Play Music
+  music.play();
 
-  panda.style.transform = "translateY(-80px)";
-  setTimeout(() => panda.style.transform = "translateY(0)", 300);
+  // Panda jump
+  panda.style.bottom = '100px';
+  setTimeout(()=>{
+    panda.style.bottom = '20px';
+  },500);
 
-  banner.style.top = "80px";
+  // Banner drop
+  setTimeout(()=>{
+    banner.style.top = '80px';
+  },400);
 
-  message.style.opacity = 1;
-  message.innerHTML = `
-    ✨ Dear Vamika ✨ <br><br>
-    Aaj ka din sirf tumhara hai 💖<br>
-    Tumhari smile sab kuch beautiful bana deti hai 🌸<br><br>
-    Tum bahut special ho ❤️<br><br>
-    🎂 Happy Birthday 🎂
-  `;
+  // Message show
+  setTimeout(()=>{
+    message.style.opacity = 1;
+  },1200);
 
-  createConfetti();
-});
-
-/* 🎉 CONFETTI */
-function createConfetti() {
-  for (let i = 0; i < 80; i++) {
+  // Confetti
+  for (let i = 0; i < 50; i++) {
     let c = document.createElement('div');
     c.className = 'confetti';
     c.style.left = Math.random() * window.innerWidth + 'px';
@@ -197,7 +139,7 @@ function createConfetti() {
     c.style.animationDuration = (2 + Math.random()*3) + 's';
     document.body.appendChild(c);
   }
-}
+});
 </script>
 
 </body>
