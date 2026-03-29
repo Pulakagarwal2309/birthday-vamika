@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Vamika ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ffd6e0, #ffe9c9);
+}
+
+/* PANDA */
+#panda {
+  position: absolute;
+  bottom: 20px;
+  left: -150px;
+  width: 130px;
+  transition: all 0.4s ease;
+}
+
+/* ROPE */
+#rope {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 6px;
+  height: 220px;
+  background: #333;
+  cursor: grab;
+}
+
+/* HELP TEXT */
+#help {
+  position: absolute;
+  top: 230px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.4em;
+  color: #ff4d6d;
+  display: none;
+  font-weight: bold;
+}
+
+/* BANNER */
+#banner {
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff4d6d;
+  color: white;
+  padding: 20px 40px;
+  font-size: 2em;
+  border-radius: 12px;
+  transition: top 1s ease;
+}
+
+/* MESSAGE BOX */
+#message {
+  position: absolute;
+  top: 200px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.3em;
+  color: #444;
+  padding: 0 20px;
+}
+
+/* TYPING EFFECT */
+.typing {
+  border-right: 3px solid #ff4d6d;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* CONFETTI */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 0;
+  animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="https://www.fesliyanstudios.com/play-mp3/387"></audio>
+
+<img id="panda" src="https://cdn-icons-png.flaticon.com/512/3069/3069172.png">
+
+<div id="rope"></div>
+
+<div id="help">🐼 HELP! pull this rope down 🪢</div>
+
+<div id="banner">🎉 Happy Birthday Vamika 🎉</div>
+
+<div id="message">
+  <span id="text" class="typing"></span>
+</div>
+
+<script>
+const panda = document.getElementById('panda');
+const rope = document.getElementById('rope');
+const banner = document.getElementById('banner');
+const help = document.getElementById('help');
+const music = document.getElementById('music');
+const text = document.getElementById('text');
+
+let pulled = false;
+
+/* 🐼 PANDA WALK (step effect) */
+let pos = -150;
+let walk = setInterval(() => {
+  pos += 5;
+  panda.style.left = pos + "px";
+
+  if (pos >= window.innerWidth * 0.42) {
+    clearInterval(walk);
+
+    /* jump */
+    panda.style.bottom = "100px";
+    setTimeout(() => panda.style.bottom = "20px", 300);
+
+    setTimeout(() => {
+      help.style.display = "block";
+    }, 800);
+  }
+}, 30);
+
+/* 🎯 ROPE CLICK */
+rope.addEventListener('click', () => {
+  if (pulled) return;
+  pulled = true;
+
+ <audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=happy-birthday-254480.mp3"></audio>
+
+  panda.style.bottom = "130px";
+  setTimeout(() => panda.style.bottom = "20px", 300);
+
+  banner.style.top = "80px";
+
+  startTyping();
+
+  createConfetti();
+});
+
+/* ✨ TYPING MESSAGE (emotional) */
+const messageText = `Dear Vamika 💖
+
+Aaj ka din sirf tumhara hai...
+Aur sach bolu to tum sirf ek din nahi, har din special ho ✨
+
+Tumhari smile kisi bhi din ko perfect bana sakti hai 😊
+Aur tumhari presence duniya ko thoda aur beautiful bana deti hai 🌸
+
+I hope tumhari life hamesha happiness, love aur success se bhari rahe 💫
+
+Kabhi udaas mat hona...
+Because you are truly someone very special ❤️
+
+Happy Birthday once again 🎂✨`;
+
+function startTyping() {
+  let i = 0;
+  function type() {
+    if (i < messageText.length) {
+      text.innerHTML += messageText.charAt(i) === "\n" ? "<br>" : messageText.charAt(i);
+      i++;
+      setTimeout(type, 35);
+    }
+  }
+  type();
+}
+
+/* 🎉 CONFETTI */
+function createConfetti() {
+  for (let i = 0; i < 80; i++) {
+    let c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * window.innerWidth + 'px';
+    c.style.background = `hsl(${Math.random()*360},100%,50%)`;
+    c.style.animationDuration = (2 + Math.random()*3) + 's';
+    document.body.appendChild(c);
+  }
+}
+</script>
+
+</body>
+</html>
