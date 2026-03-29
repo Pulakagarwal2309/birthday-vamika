@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Vamika ❤️</title>
+<title>Happy Birthday Vamika 🎂</title>
 
 <style>
 body {
@@ -13,7 +13,7 @@ body {
   background: linear-gradient(135deg, #ffd6e0, #ffe9c9);
 }
 
-/* 🐼 PANDA (EMOJI ANIMATION) */
+/* 🐼 PANDA (EMOJI FIXED) */
 #panda {
   position: absolute;
   bottom: 20px;
@@ -36,12 +36,12 @@ body {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 30px;
+  width: 50px;
   height: 220px;
   cursor: pointer;
 }
 
-/* visible rope line */
+/* visible rope */
 #rope::after {
   content: "";
   display: block;
@@ -49,18 +49,6 @@ body {
   height: 220px;
   background: black;
   margin: auto;
-}
-
-/* HELP TEXT */
-#help {
-  position: absolute;
-  top: 230px;
-  width: 100%;
-  text-align: center;
-  font-size: 1.4em;
-  color: #ff4d6d;
-  display: none;
-  font-weight: bold;
 }
 
 /* BANNER */
@@ -85,6 +73,20 @@ body {
   text-align: center;
   font-size: 1.2em;
   color: #444;
+  opacity: 0;
+  transition: opacity 2s;
+}
+
+/* HELP */
+#help {
+  position: absolute;
+  top: 230px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.4em;
+  color: #ff4d6d;
+  display: none;
+  font-weight: bold;
 }
 
 /* CONFETTI */
@@ -106,19 +108,17 @@ body {
 
 <body>
 
-<!-- 🎵 LOCAL SOUND (ensure works) -->
-<audio id="music">
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=happy-birthday-254480.mp3" type="audio/mp3">
-</audio>
+<!-- 🎵 WORKING AUDIO -->
+<audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=happy-birthday-254480.mp3"></audio>
 
-<!-- 🐼 ANIMATED PANDA -->
+<!-- 🐼 PANDA -->
 <div id="panda" class="walk">🐼</div>
 
 <div id="rope"></div>
 
-<div id="help">🐼 HELP! pull this rope down 🪢</div>
-
 <div id="banner">🎉 Happy Birthday Vamika 🎉</div>
+
+<div id="help">🐼 HELP! pull this rope 👇</div>
 
 <div id="message"></div>
 
@@ -126,13 +126,13 @@ body {
 const panda = document.getElementById('panda');
 const rope = document.getElementById('rope');
 const banner = document.getElementById('banner');
+const message = document.getElementById('message');
 const help = document.getElementById('help');
 const music = document.getElementById('music');
-const message = document.getElementById('message');
 
 let pulled = false;
 
-/* 🐼 WALKING PANDA */
+/* 🐼 PANDA WALK */
 let pos = -100;
 let walk = setInterval(() => {
   pos += 4;
@@ -142,19 +142,21 @@ let walk = setInterval(() => {
     clearInterval(walk);
     panda.classList.remove("walk");
 
-    // jump
     panda.style.transform = "translateY(-60px)";
     setTimeout(() => panda.style.transform = "translateY(0)", 300);
 
     setTimeout(() => {
       help.style.display = "block";
-    }, 600);
+    }, 500);
   }
 }, 30);
 
-/* 🎯 CLICK (UNLOCK SOUND) */
+/* 🔥 SOUND UNLOCK (IMPORTANT) */
 document.body.addEventListener("click", () => {
-  music.play().catch(()=>{});
+  music.play().then(() => {
+    music.pause(); // just unlock
+    music.currentTime = 0;
+  }).catch(()=>{});
 }, { once: true });
 
 /* 🎯 ROPE CLICK */
@@ -163,19 +165,14 @@ rope.onclick = () => {
   pulled = true;
 
   music.currentTime = 0;
-  music.play();
+  music.play(); // ✅ NOW WILL WORK
 
   panda.style.transform = "translateY(-80px)";
   setTimeout(() => panda.style.transform = "translateY(0)", 300);
 
   banner.style.top = "80px";
 
-  showMessage();
-  createConfetti();
-};
-
-/* 💖 MESSAGE */
-function showMessage() {
+  message.style.opacity = 1;
   message.innerHTML = `
   ✨ Dear Vamika ✨ <br><br>
   Aaj ka din sirf tumhara hai 💖<br>
@@ -183,11 +180,13 @@ function showMessage() {
   Tum bahut special ho ❤️<br><br>
   🎂 Happy Birthday 🎂
   `;
-}
+
+  createConfetti();
+};
 
 /* 🎉 CONFETTI */
 function createConfetti() {
-  for (let i = 0; i < 70; i++) {
+  for (let i = 0; i < 80; i++) {
     let c = document.createElement('div');
     c.className = 'confetti';
     c.style.left = Math.random() * window.innerWidth + 'px';
