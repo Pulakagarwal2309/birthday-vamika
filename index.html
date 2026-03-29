@@ -13,7 +13,7 @@ body {
   background: linear-gradient(135deg, #ffd6e0, #ffe9c9);
 }
 
-/* 🐼 PANDA (EMOJI FIXED) */
+/* 🐼 PANDA */
 #panda {
   position: absolute;
   bottom: 20px;
@@ -21,7 +21,7 @@ body {
   font-size: 70px;
 }
 
-/* WALK ANIMATION */
+/* WALK */
 .walk {
   animation: bounce 0.4s infinite alternate;
 }
@@ -36,12 +36,11 @@ body {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 50px;
+  width: 60px;
   height: 220px;
   cursor: pointer;
 }
 
-/* visible rope */
 #rope::after {
   content: "";
   display: block;
@@ -74,10 +73,10 @@ body {
   font-size: 1.2em;
   color: #444;
   opacity: 0;
-  transition: opacity 2s;
+  transition: opacity 1.5s;
 }
 
-/* HELP */
+/* HELP TEXT */
 #help {
   position: absolute;
   top: 230px;
@@ -108,8 +107,10 @@ body {
 
 <body>
 
-<!-- 🎵 WORKING AUDIO -->
-<audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=happy-birthday-254480.mp3"></audio>
+<!-- 🎵 AUDIO (LOCAL FILE) -->
+<audio id="music" preload="auto" loop>
+  <source src="birthday.mp3" type="audio/mpeg">
+</audio>
 
 <!-- 🐼 PANDA -->
 <div id="panda" class="walk">🐼</div>
@@ -151,21 +152,23 @@ let walk = setInterval(() => {
   }
 }, 30);
 
-/* 🔥 SOUND UNLOCK (IMPORTANT) */
+/* 🔓 SOUND UNLOCK (CRITICAL) */
 document.body.addEventListener("click", () => {
+  music.muted = true;
   music.play().then(() => {
-    music.pause(); // just unlock
+    music.pause();
     music.currentTime = 0;
+    music.muted = false;
   }).catch(()=>{});
 }, { once: true });
 
 /* 🎯 ROPE CLICK */
-rope.onclick = () => {
+rope.addEventListener("click", () => {
   if (pulled) return;
   pulled = true;
 
   music.currentTime = 0;
-  music.play(); // ✅ NOW WILL WORK
+  music.play().catch(err => console.log(err));
 
   panda.style.transform = "translateY(-80px)";
   setTimeout(() => panda.style.transform = "translateY(0)", 300);
@@ -174,15 +177,15 @@ rope.onclick = () => {
 
   message.style.opacity = 1;
   message.innerHTML = `
-  ✨ Dear Vamika ✨ <br><br>
-  Aaj ka din sirf tumhara hai 💖<br>
-  Tumhari smile sab kuch beautiful bana deti hai 🌸<br><br>
-  Tum bahut special ho ❤️<br><br>
-  🎂 Happy Birthday 🎂
+    ✨ Dear Vamika ✨ <br><br>
+    Aaj ka din sirf tumhara hai 💖<br>
+    Tumhari smile sab kuch beautiful bana deti hai 🌸<br><br>
+    Tum bahut special ho ❤️<br><br>
+    🎂 Happy Birthday 🎂
   `;
 
   createConfetti();
-};
+});
 
 /* 🎉 CONFETTI */
 function createConfetti() {
